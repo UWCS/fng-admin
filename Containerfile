@@ -7,13 +7,13 @@ WORKDIR /app
 # this will cache them and speed up future builds
 FROM base AS install
 RUN mkdir -p /temp/dev
-COPY frontend/package.json frontend/bun.lockb /temp/dev/
-RUN cd /temp/dev && bun install --frozen-lockfile
+COPY frontend/package.json frontend/bun.lock /temp/dev/
+RUN cd /temp/dev && bun install
 
 # install with --production (exclude devDependencies)
 RUN mkdir -p /temp/prod
-COPY frontend/package.json frontend/bun.lockb /temp/prod/
-RUN cd /temp/prod && bun install --frozen-lockfile --production
+COPY frontend/package.json frontend/bun.lock /temp/prod/
+RUN cd /temp/prod && bun install --production
 
 # copy node_modules from temp directory
 # then copy all (non-ignored) project files into the image
